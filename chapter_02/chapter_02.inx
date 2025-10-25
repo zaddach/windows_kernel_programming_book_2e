@@ -1,0 +1,27 @@
+;
+; chapter_02.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=Extension
+ClassGuid={e2f84ce7-8efa-411c-aa69-97454ca4cb57}
+Provider=%ManufacturerName%
+DriverVer=
+CatalogFile = chapter_02.cat
+PnpLockdown=1
+ExtensionId=
+
+[DestinationDirs]
+DefaultDestDir = 13
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+
+[Standard.NT$ARCH$.10.0...16299]
+
+[Strings]
+ManufacturerName="Manufacturer"
+DiskName="chapter_02 Source Disk"

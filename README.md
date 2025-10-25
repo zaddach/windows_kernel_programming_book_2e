@@ -13,6 +13,11 @@ The build environment setup process is explained in the [windows-drivers-rs Gett
 - Install LLVM: `winget install -i LLVM.LLVM`
 - Install `cargo cmake`: `cargo install --locked cargo-make --no-default-features --features tls-native`
 
+For easier scaffolding, you can install `cargo-wdk`:
+```
+cargo install --git https://github.com/microsoft/windows-drivers-rs.git cargo-wdk --locked
+```
+
 ## Chapters
 - [Chapter 2](./chapter_02/README.md)
 

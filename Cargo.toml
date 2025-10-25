@@ -1,5 +1,12 @@
 [workspace]
 resolver = "3"
 members = [
-  "chapter_02",
+  "chapter_02", "chapter_03",
 ]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+lto = true
+panic = "abort"

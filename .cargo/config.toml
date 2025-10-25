@@ -1,5 +1,2 @@
 [build]
 rustflags = ["-C", "target-feature=+crt-static"]
-
-[unstable]
-build-std = ["core", "alloc", "panic_abort"]

@@ -4,10 +4,12 @@ use core::ffi::c_void;
 
 use booster_common::ThreadData;
 use wdk_sys::{
-   ntddk::{IoCreateDevice, IoCreateSymbolicLink, IoDeleteDevice, IoDeleteSymbolicLink, IofCompleteRequest, KeSetPriorityThread, ObfDereferenceObject, PsLookupThreadByThreadId}, DRIVER_OBJECT, FILE_DEVICE_UNKNOWN, HANDLE, IO_NO_INCREMENT, NTSTATUS, NT_SUCCESS, PCUNICODE_STRING, PDEVICE_OBJECT, PETHREAD, PIO_STACK_LOCATION, PIRP, STATUS_BUFFER_TOO_SMALL, STATUS_INVALID_PARAMETER, STATUS_SUCCESS, UNICODE_STRING
+   ntddk::{IoCreateDevice, IoCreateSymbolicLink, IoDeleteDevice, IoDeleteSymbolicLink, IofCompleteRequest, KeSetPriorityThread, ObfDereferenceObject, PsLookupThreadByThreadId}, DRIVER_OBJECT, FILE_DEVICE_UNKNOWN, HANDLE, IO_NO_INCREMENT, NTSTATUS, NT_SUCCESS, PCUNICODE_STRING, PDEVICE_OBJECT, PETHREAD, STATUS_BUFFER_TOO_SMALL, STATUS_INVALID_PARAMETER, STATUS_SUCCESS, UNICODE_STRING
 };
 use wdk::println;
-use wkpb_util::u;
+use wdk_strings::u;
+use windows_drivers_util::IoGetCurrentIrpStackLocation;
+
 
 #[cfg(not(test))]
 extern crate wdk_panic;
@@ -18,10 +20,6 @@ use wdk_alloc::WdkAllocator;
 #[cfg(not(test))]
 #[global_allocator]
 static GLOBAL_ALLOCATOR: WdkAllocator = WdkAllocator;
-
-unsafe extern "C" {
-   fn IoGetCurrentIrpStackLocation(irp: PIRP) -> PIO_STACK_LOCATION;
-}
 
 const DEVICE_NAME: UNICODE_STRING = u!(r"\Device\Booster");
 const DEVICE_SYMLINK: UNICODE_STRING = u!(r"\??\Booster");

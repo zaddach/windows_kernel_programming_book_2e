@@ -10,15 +10,16 @@ driver-type = "WDM"
 crate-type = ["cdylib"]
 
 [build-dependencies]
-wdk-build = "0.3.0"
+wdk-build = "0.4.0"
 
 [dependencies]
-wdk = "0.3.0"
-wdk-alloc = "0.3.0"
-wdk-panic = "0.3.0"
-wdk-sys = "0.3.0"
+wdk = "0.3.1"
+wdk-alloc = "0.3.1"
+wdk-panic = "0.3.1"
+wdk-sys = "0.4.0"
 booster-common = {path = "../booster-common"}
-wkpb-util = {path = "../../wkpb-util"}
+wdk-strings = {path = "../../wdk-strings"}
+windows-drivers-util = {path = "../../windows-drivers-util"}
 
 [features]
 default = []

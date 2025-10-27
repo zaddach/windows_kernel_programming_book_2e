@@ -1,0 +1,16 @@
+[package]
+name = "wdk-strings"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+authors = ["Jonas Zaddach <jonas.zaddach@gmail.com>"]
+description = "Macro crate for compile-time-initialized unicode strings"
+
+[dependencies]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true

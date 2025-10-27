@@ -1,3 +1,5 @@
+#![no_std]
+
 /// A literal UTF-16 wide string with a trailing null terminator.
 #[macro_export]
 macro_rules! u {

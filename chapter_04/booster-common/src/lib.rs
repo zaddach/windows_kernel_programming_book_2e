@@ -1,4 +1,6 @@
-use std::ffi::c_int;
+#![no_std]
+
+use core::ffi::c_int;
 
 #[repr(C)]
 pub struct ThreadData {

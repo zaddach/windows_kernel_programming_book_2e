@@ -4,7 +4,7 @@ use core::ffi::c_void;
 
 use wdk::println;
 use wdk_sys::{
-   ntddk::{ExAllocatePool2, ExFreePool, RtlCopyUnicodeString, RtlGetVersion}, DRIVER_OBJECT, NTSTATUS, PCUNICODE_STRING, PDRIVER_OBJECT, RTL_OSVERSIONINFOW, SIZE_T, STATUS_INSUFFICIENT_RESOURCES, STATUS_INVALID_PARAMETER, STATUS_SUCCESS, UNICODE_STRING, _POOL_TYPE::PagedPool
+   DRIVER_OBJECT, NTSTATUS, PCUNICODE_STRING, PDRIVER_OBJECT, POOL_FLAG_PAGED, RTL_OSVERSIONINFOW, SIZE_T, STATUS_INSUFFICIENT_RESOURCES, STATUS_INVALID_PARAMETER, STATUS_SUCCESS, UNICODE_STRING, ntddk::{ExAllocatePool2, ExFreePool, RtlCopyUnicodeString, RtlGetVersion}
 };
 
 #[cfg(not(test))]
@@ -45,7 +45,7 @@ fn driver_entry(
             return STATUS_INVALID_PARAMETER;
         };
 
-        REGISTRY_PATH.Buffer = ExAllocatePool2(PagedPool as u64, registry_path.Length as SIZE_T, DRIVER_TAG) as *mut u16;
+        REGISTRY_PATH.Buffer = ExAllocatePool2(POOL_FLAG_PAGED, registry_path.Length as SIZE_T, DRIVER_TAG) as *mut u16;
         if REGISTRY_PATH.Buffer.is_null() {
             println!("Failed to allocate memory");
             return STATUS_INSUFFICIENT_RESOURCES;

@@ -4,24 +4,45 @@
 
 [Version]
 Signature="$WINDOWS NT$"
-Class=Extension
-ClassGuid={e2f84ce7-8efa-411c-aa69-97454ca4cb57}
+Class=System
+ClassGuid={4D36E97D-E325-11CE-BFC1-08002BE10318}
 Provider=%ManufacturerName%
 DriverVer=
-CatalogFile = chapter_02.cat
+CatalogFile=chapter_02.cat
 PnpLockdown=1
-ExtensionId=
 
 [DestinationDirs]
 DefaultDestDir = 13
+ServiceInstall = 13
 
 [SourceDisksNames]
 1 = %DiskName%,,,""
 
 [SourceDisksFiles]
+chapter_02.sys = 1
 
-[Standard.NT$ARCH$.10.0...16299]
+;*****************************************
+; chapter_02 service install
+;*****************************************
+
+[DefaultInstall.NT$ARCH$]
+CopyFiles=ServiceInstall
+
+[DefaultInstall.NT$ARCH$.Services]
+AddService=%ServiceName%,0x00000800,chapter_02_Service_Inst
+
+[ServiceInstall]
+%ServiceName%.sys
+
+[chapter_02_Service_Inst]
+DisplayName    = %ServiceName%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\%ServiceName%.sys
+LoadOrderGroup = Extended Base
 
 [Strings]
-ManufacturerName="Manufacturer"
-DiskName="chapter_02 Source Disk"
+ManufacturerName = "Sample Driver Author"
+ServiceName = "chapter_02"
+DiskName = "chapter_02 Installation Disk"

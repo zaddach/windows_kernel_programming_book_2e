@@ -1,8 +1,10 @@
+use booster_common::ThreadData;
 use core::slice;
 use std::env;
-use booster_common::ThreadData;
 use windows::Win32::Foundation::{CloseHandle, GENERIC_WRITE, HANDLE};
-use windows::Win32::Storage::FileSystem::{CreateFileW, WriteFile, FILE_FLAGS_AND_ATTRIBUTES, FILE_SHARE_MODE, OPEN_EXISTING};
+use windows::Win32::Storage::FileSystem::{
+    CreateFileW, FILE_FLAGS_AND_ATTRIBUTES, FILE_SHARE_MODE, OPEN_EXISTING, WriteFile,
+};
 use windows_strings::{PCWSTR, w};
 
 const DEVICE_PATH: PCWSTR = w!(r"\\.\Booster");
@@ -43,9 +45,9 @@ fn main() {
                 OPEN_EXISTING,
                 FILE_FLAGS_AND_ATTRIBUTES::default(),
                 None,
-            ).expect("Failed to open device")
+            )
+            .expect("Failed to open device"),
         );
-
 
         let data = ThreadData {
             thread_id: tid,
@@ -61,7 +63,8 @@ fn main() {
             )),
             Some(&mut bytes_written),
             None,
-        ).expect("Priority change failed");
+        )
+        .expect("Priority change failed");
 
         println!("Priority change succeeded!");
     }

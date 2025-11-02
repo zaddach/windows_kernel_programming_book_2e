@@ -25,6 +25,11 @@ cargo install --git https://github.com/microsoft/windows-drivers-rs.git cargo-wd
 - [Chapter 3](./chapter_03/README.md)
 - [Chapter 4](./chapter_04/README.md)
 
+## Other Rust driver resources
+The [Windows-rust-driver-samples](https://github.com/microsoft/Windows-rust-driver-samples) repo is a
+Rust port of the original [Windows-driver-samples](https://github.com/microsoft/Windows-driver-samples)
+repository.
+
 ## Notes
 
 ### Custom Allocators

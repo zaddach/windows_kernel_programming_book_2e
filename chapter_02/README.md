@@ -34,6 +34,13 @@ static mut REGISTRY_PATH: UNICODE_STRING = UNICODE_STRING {
 The `ExAllocatePoolWithTag` function is deprecated and isn't available in `wdk-sys`.
 We're using the `ExAllocatePool2` function instead, as [recommended by Microsoft](https://learn.microsoft.com/en-us/windows-hardware/drivers/kernel/updating-deprecated-exallocatepool-calls).
 
+You can use the `println!` macro to output to the debug print facility. Beware the warning:
+
+> The output is routed to the debugger via `wdk_sys::ntddk::DbgPrint`, so the `IRQL` requirements of that function apply.
+> In particular, this should only be called at `IRQL <= DIRQL`, and calling it at `IRQL > DIRQL` can cause deadlocks due to the debugger's use of IPIs (Inter-Process Interrupts).
+
+So keep in mind to not use `println!` with kernel functions running with `IRQL` higher than `DIRQL`.
+
 ## Setting up the .inf
 TODO
 
@@ -43,6 +50,9 @@ Run
 cargo make
 ```
 in a terminal with administrative privileges to build and sign the driver.
+
+## Resources
+- https://learn.microsoft.com/en-us/windows-hardware/drivers/gettingstarted/writing-a-very-small-kmdf--driver
 
 
 

@@ -1,0 +1,34 @@
+[package]
+name = "booster"
+version = "0.1.0"
+edition = "2024"
+
+[package.metadata.wdk.driver-model]
+driver-type = "WDM"
+
+[lib]
+crate-type = ["cdylib"]
+
+[build-dependencies]
+wdk-build = "0.4.0"
+
+[dependencies]
+wdk = "0.3.1"
+wdk-alloc = "0.3.1"
+wdk-panic = "0.3.1"
+wdk-sys = "0.4.0"
+booster-common = {path = "../booster-common"}
+wdk-strings = {path = "../../wdk-strings"}
+windows-drivers-util = {path = "../../windows-drivers-util"}
+tracelogging = { version = "1.2.4", features = ["kernel_mode", "macros"] }
+
+[features]
+default = []
+nightly = ["wdk/nightly", "wdk-sys/nightly"]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+lto = true

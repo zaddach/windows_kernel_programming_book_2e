@@ -1,0 +1,65 @@
+;
+; booster.inf
+;
+
+[Version]
+Signature="$WINDOWS NT$"
+Class=System
+ClassGuid={4d36e97d-e325-11ce-bfc1-08002be10318}
+Provider=%ManufacturerName%
+DriverVer=
+CatalogFile=booster.cat
+PnpLockdown=1
+
+[DestinationDirs]
+DefaultDestDir = 12
+BoosterDriver_Device_CoInstaller_CopyFiles = 11
+
+[SourceDisksNames]
+1 = %DiskName%,,,""
+
+[SourceDisksFiles]
+booster.sys = 1
+
+;*****************************************
+; Booster Device Install Section
+;*****************************************
+
+[DefaultInstall.NT$ARCH$]
+CopyFiles=Drivers_Dir
+AddReg=BoosterDevice_AddReg
+
+[DefaultInstall.NT$ARCH$.Services]
+AddService = %DriverName%,,BoosterDriver_Service_Inst
+
+[DefaultInstall.NT$ARCH$.HW]
+AddReg=BoosterDevice_AddReg
+
+[BoosterDevice_AddReg]
+HKR,,DeviceCharacteristics,0x10001,0x0100     ; FILE_DEVICE_SECURE_OPEN
+HKR,,Security,,"D:P(A;;GA;;;SY)(A;;GA;;;BA)"  ; Allow System and Admin full access
+
+[Drivers_Dir]
+booster.sys
+
+;*****************************************
+; Booster Service
+;*****************************************
+
+[BoosterDriver_Service_Inst]
+DisplayName    = %DriverName%
+ServiceType    = 1                  ; SERVICE_KERNEL_DRIVER
+StartType      = 3                  ; SERVICE_DEMAND_START
+ErrorControl   = 1                  ; SERVICE_ERROR_NORMAL
+ServiceBinary  = %12%\booster.sys
+
+;*****************************************
+; Strings
+;*****************************************
+
+[Strings]
+ManufacturerName = "Sample Driver Provider"
+ClassName = "Booster Device"
+DiskName = "Booster Installation Disk"
+DriverName = "Booster"
+BoosterDeviceName = "\\Device\\Booster"

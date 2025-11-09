@@ -16,6 +16,7 @@ pub const IOCTL_ZERO_GET_STATS: u32 = ctl_code!(DEVICE_ZERO, 0x800, METHOD_BUFFE
 pub const IOCTL_ZERO_CLEAR_STATS: u32 = ctl_code!(DEVICE_ZERO, 0x801, METHOD_NEITHER, FILE_ANY_ACCESS);
 
 #[derive(Default)]
+#[repr(C)]
 pub struct ZeroStats {
     pub total_read: u64,
     pub total_written: u64,

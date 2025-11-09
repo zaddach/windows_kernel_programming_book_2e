@@ -3,8 +3,9 @@ use windows::Win32::Storage::FileSystem::{
     CreateFileW, FILE_FLAGS_AND_ATTRIBUTES, FILE_SHARE_MODE, OPEN_EXISTING, WriteFile,
     ReadFile,
 };
+use windows::Win32::System::IO::DeviceIoControl;
 use windows_strings::{PCWSTR, w};
-use zero_common::ZeroStats;
+use zero_common::{IOCTL_ZERO_GET_STATS, ZeroStats};
 
 const DEVICE_PATH: PCWSTR = w!(r"\\.\Zero");
 
@@ -80,6 +81,21 @@ fn main() {
             );
         }
 
-        let mut _stats = ZeroStats::default();
+        let mut stats = ZeroStats::default();
+        let mut bytes_read = 0;
+        DeviceIoControl(
+            device.0,
+            IOCTL_ZERO_GET_STATS,
+            None,
+            0,
+            Some(&mut stats as *mut _ as *mut core::ffi::c_void),
+            core::mem::size_of::<ZeroStats>() as u32,
+            Some(&mut bytes_read),
+            None,
+        )
+        .expect("failed in DeviceIoControl");
+
+        debug_assert_eq!(bytes_read as usize, core::mem::size_of::<ZeroStats>());
+        println!("Total Read: {}, Total Write: {}", stats.total_read, stats.total_written);
     }
 }

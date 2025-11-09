@@ -1,3 +1,5 @@
+#![no_std]
+
 #[cfg(feature = "kernel")]
 pub use wdk_sys::{
     METHOD_BUFFERED, METHOD_NEITHER, FILE_ANY_ACCESS,

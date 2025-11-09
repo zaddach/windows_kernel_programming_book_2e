@@ -1,5 +1,5 @@
 [package]
-name = "booster"
+name = "zero"
 version = "0.1.0"
 edition = "2024"
 
@@ -17,10 +17,9 @@ wdk = "0.3.1"
 wdk-alloc = "0.3.1"
 wdk-panic = "0.3.1"
 wdk-sys = "0.4.0"
-booster-common = {path = "../booster-common"}
+zero-common = {path = "../zero-common", features = ["kernel"]}
 wdk-strings = {path = "../../wdk-strings"}
 windows-drivers-util = {path = "../../windows-drivers-util"}
-tracelogging = { version = "1.2.4", features = ["kernel_mode", "macros"] }
 
 [features]
 default = []

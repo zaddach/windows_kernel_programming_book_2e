@@ -1,7 +1,7 @@
 #![no_std]
 
 use wdk_sys::{
-   PIO_STACK_LOCATION, PIRP,
+   PIO_STACK_LOCATION, PIRP, MDL, MDL_MAPPED_TO_SYSTEM_VA, MDL_SOURCE_IS_NONPAGED_POOL,
 };
 
 /// This routine is invoked to return a pointer to the current stack location
@@ -22,5 +22,39 @@ pub fn IoGetCurrentIrpStackLocation(irp: PIRP) -> PIO_STACK_LOCATION {
 
         assert!(irp.CurrentLocation <= irp.StackCount + 1);
         irp.Tail.Overlay.__bindgen_anon_2.__bindgen_anon_1.CurrentStackLocation
+    }
+}
+
+/// This routine returns the mapped address of an MDL. If the
+/// Mdl is not already mapped or a system address, it is mapped.
+/// 
+/// # Arguments
+/// * `Mdl` - Pointer to the MDL to map.
+/// * `Priority` - Supplies an indication as to how important it is that this
+///                request succeed under low available PTE conditions.
+/// 
+/// # Returns
+/// Returns the base address where the pages are mapped.  The base address
+/// has the same offset as the virtual address in the MDL.
+/// Unlike MmGetSystemAddressForMdl, Safe guarantees that it will always
+/// return NULL on failure instead of bugchecking the system.
+/// This routine is not usable by WDM 1.0 drivers as 1.0 did not include
+/// MmMapLockedPagesSpecifyCache.  The solution for WDM 1.0 drivers is to
+/// provide synchronization and set/reset the MDL_MAPPING_CAN_FAIL bit.
+#[allow(non_snake_case)]
+pub fn MmGetSystemAddressForMdlSafe(Mdl: *mut MDL, Priority: u32) -> *mut core::ffi::c_void {
+    unsafe {
+        if (*Mdl).MdlFlags & ((MDL_MAPPED_TO_SYSTEM_VA | MDL_SOURCE_IS_NONPAGED_POOL) as i16) != 0 {
+            (*Mdl).MappedSystemVa
+        } else {
+            wdk_sys::ntddk::MmMapLockedPagesSpecifyCache(
+                Mdl,
+                wdk_sys::_MODE::KernelMode as i8,
+                wdk_sys::_MEMORY_CACHING_TYPE::MmCached,
+                core::ptr::null_mut(),
+                false.into(),
+                Priority,
+            )
+        }
     }
 }

@@ -17,7 +17,7 @@ The build environment setup process is explained in the [windows-drivers-rs Gett
 
 For easier scaffolding, you can install `cargo-wdk`. There's a bit of explanation in Nate Deisinger's post [Towards Rust in Windows Drivers](https://techcommunity.microsoft.com/blog/windowsdriverdev/towards-rust-in-windows-drivers/4449718) on `cargo-wdk`.
 ```
-cargo install --git https://github.com/microsoft/windows-drivers-rs.git cargo-wdk --locked
+cargo install cargo-wdk
 ```
 
 ## Chapters
